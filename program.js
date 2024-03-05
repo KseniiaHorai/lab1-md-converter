@@ -1,3 +1,5 @@
+const { mdConverter } = require('./converter.js');
+
 function main() {
 
     const args = process.argv.slice(2)
@@ -17,8 +19,6 @@ function main() {
     }
 
     let markdownContent = require('fs').readFileSync(inputFilePath, 'utf8');
-    
-    //mdConverter needs to be implemented
     let htmlContent = mdConverter(markdownContent);
     if (outputFilePath !== null) {
         require('fs').writeFileSync(outputFilePath, htmlContent);
