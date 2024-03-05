@@ -22,6 +22,24 @@ function mdConverter(inputMd) {
 
     outputHtml = tempString + outputHtml;
 
+    function formPatternArray(pattern, outputHtml) {
+        let array = [];
+        let newPatten = new RegExp(pattern, 'gms');
+        let result ;
+        
+        while ((result = newPatten.exec(outputHtml)) !== null) {
+            array.push(result[1]);
+        }
+    
+        return array;
+    }
+    
+    //validateMarkdownNesting needs to be implemented
+    let boldArray = formPatternArray(boldPattern, outputHtml);
+    let italicArray = formPatternArray(italicPattern, outputHtml);
+    let monospacedBlocks = formPatternArray(monospacedPattern, outputHtml);
+
+
     outputHtml = outputHtml.replace(boldPattern, '<b>$1</b>');
     outputHtml = outputHtml.replace(italicPattern, '<i>$1</i>');
     outputHtml = outputHtml.replace(monospacedPattern, '<tt>$1</tt>');
