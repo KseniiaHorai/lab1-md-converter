@@ -1,4 +1,4 @@
-_**nested markdown**_
+**nested markdown**
 
 _italic fragment1_
 
@@ -16,4 +16,3 @@ This text is **preformatted**
 
 And can have multiple paragraphs
 ```
-
