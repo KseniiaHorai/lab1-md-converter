@@ -24,4 +24,31 @@ function validateMarkdownNesting(firstPattern, secondPattern, array) {
     }
 }
 
-module.exports = { formPatternArray, validateMarkdownNesting };
+function validateMarkdownCompletion(validationHtml) {
+
+    const newValidationHtml = validationHtml;
+    const wordsArray = newValidationHtml.split(/\s+/);
+
+    if (isIncomplete(wordsArray, '```') ||
+        isIncomplete(wordsArray, '**') ||
+        isIncomplete(wordsArray, '_') ||
+        isIncomplete(wordsArray, '`')
+        ) {
+        throw 'Invalid input: incomplete markdown';
+    }
+}
+
+function isIncomplete(wordsArray, marker) {
+    
+    for (let word of wordsArray) {
+        if(word.startsWith(marker)) {
+            if(/^[a-zA-Zа-яА-Я]$/.test(word.charAt(marker.length))){
+                return true;
+            }
+        }
+    }
+    
+    return false;
+}
+
+module.exports = { formPatternArray, validateMarkdownNesting, validateMarkdownCompletion };
