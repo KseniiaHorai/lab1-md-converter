@@ -40,20 +40,25 @@ The application takes a Markdown file as input and generates HTML output. It sup
     node program.js <markdown_file_path> [--out <output_file_path>]
     ```
 
-### Handling Invalid Markdown
+## User Instructions
 
-If the input Markdown file contains invalid syntax, the application will output an error message to stderr and exit with a non-zero exit code.
+1. Ensure you have Node.js installed on your system.
+2. Clone the repository to your local machine.
+3. Open a terminal or command prompt.
+4. Navigate to the project directory using the `cd` command.
+5. Install the required dependencies by running `npm install`.
+6. Once the dependencies are installed, you can use the program to convert Markdown files to HTML.
+7. Run the program by executing `node program.js <markdown_file_path> [--out <output_file_path>]`.
+8. If successful, the HTML output will be displayed in the terminal or saved to the specified output file. If any errors occur during conversion, appropriate error messages will be shown.
 
-Repository Structure
---------------------
+## Repository Structure
 
 *   **program.js**: Main application file
 *   **converter.js**: Module containing Markdown to HTML conversion logic
 *   **validation.js**: Module containing functions for validating Markdown syntax
 *   **input.md**: Sample input Markdown file
 
-Revert Commit
--------------
+## Revert Commit
 
 The repository contains a revert commit 
 You can find it [here](https://github.com/KseniiaHorai/lab1-md-converter/commit/65bb91fd99e3e8764786ce382922a25bc66b2d77).
