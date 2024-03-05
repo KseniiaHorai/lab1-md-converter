@@ -23,6 +23,7 @@ function mdConverter(inputMd) {
     }
 
     outputHtml = tempString + outputHtml;
+    let validationHtml = outputHtml;
 
     let boldArray = formPatternArray(boldPattern, outputHtml);
     validateMarkdownNesting(italicPattern, monospacedPattern, boldArray);
@@ -32,6 +33,12 @@ function mdConverter(inputMd) {
 
     let monospacedArray = formPatternArray(monospacedPattern, outputHtml);
     validateMarkdownNesting(boldPattern, italicPattern, monospacedArray);
+
+    validationHtml = validationHtml.replace(boldPattern, 'boldBlock');
+    validationHtml = validationHtml.replace(italicPattern, 'italicBlock');
+    validationHtml = validationHtml.replace(monospacedPattern, 'monospacedBlock');
+
+    //validateMarkdownCompletion(validationHtml) needs to be implemented
 
     outputHtml = outputHtml.replace(boldPattern, '<b>$1</b>');
     outputHtml = outputHtml.replace(italicPattern, '<i>$1</i>');
