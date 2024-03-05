@@ -34,16 +34,32 @@ function mdConverter(inputMd) {
         return array;
     }
     
-    //validateMarkdownNesting needs to be implemented
-    let boldArray = formPatternArray(boldPattern, outputHtml);
-    let italicArray = formPatternArray(italicPattern, outputHtml);
-    let monospacedBlocks = formPatternArray(monospacedPattern, outputHtml);
+    function validateMarkdownNesting(firstPattern, secondPattern, array) {
+        let newFitstPattern = new RegExp(firstPattern, 'gms');
+        let newSecondPattern = new RegExp(secondPattern, 'gms');
+        for (let item of array) {
+            let firstResult = newFitstPattern.exec(item);
+            let secondResult = newSecondPattern.exec(item);
+            let isNested1 = firstResult !== null;
+            let isNested2 = secondResult !== null;
+            if (isNested1 || isNested2) {
+                throw 'Invalid input: nested markdown';
+            }
+        }
+    }
 
+    let boldArray = formPatternArray(boldPattern, outputHtml);
+    validateMarkdownNesting(italicPattern, monospacedPattern, boldArray);
+
+    let italicArray = formPatternArray(italicPattern, outputHtml);
+    validateMarkdownNesting(boldPattern, monospacedPattern, italicArray);
+
+    let monospacedArray = formPatternArray(monospacedPattern, outputHtml);
+    validateMarkdownNesting(boldPattern, italicPattern, monospacedArray);
 
     outputHtml = outputHtml.replace(boldPattern, '<b>$1</b>');
     outputHtml = outputHtml.replace(italicPattern, '<i>$1</i>');
     outputHtml = outputHtml.replace(monospacedPattern, '<tt>$1</tt>');
-
 
     let paragraphs = outputHtml.split('\n{2,}');
 
