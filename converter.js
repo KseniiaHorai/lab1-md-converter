@@ -1,4 +1,4 @@
-const { formPatternArray, validateMarkdownNesting } = require('./validation.js');
+const { formPatternArray, validateMarkdownNesting, validateMarkdownCompletion } = require('./validation.js');
 
 function mdConverter(inputMd) {
 
@@ -38,7 +38,7 @@ function mdConverter(inputMd) {
     validationHtml = validationHtml.replace(italicPattern, 'italicBlock');
     validationHtml = validationHtml.replace(monospacedPattern, 'monospacedBlock');
 
-    //validateMarkdownCompletion(validationHtml) needs to be implemented
+    validateMarkdownCompletion(validationHtml);
 
     outputHtml = outputHtml.replace(boldPattern, '<b>$1</b>');
     outputHtml = outputHtml.replace(italicPattern, '<i>$1</i>');
