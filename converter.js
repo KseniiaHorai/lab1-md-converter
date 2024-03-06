@@ -14,10 +14,8 @@ function mdConverter(inputMd) {
     let preIndex = 0;
 
     while ((fencedCodeMatch = /(^\\n?|^)```(.*?)```(\\n?|$)/ms.exec(outputHtml)) !== null) {
-        let before = fencedCodeMatch[1];
-        let after = fencedCodeMatch[3];
         fencedCodeBlocks.push(fencedCodeMatch[2]);
-        let tempRepl = (before.isEmpty ? '' : '\n') + 'replaceFencedCode' + preIndex++ + (after.isEmpty ? '' : '\n');
+        let tempRepl =  'replaceFencedCode' + preIndex++;
         tempString += outputHtml.substring(0, fencedCodeMatch.index) + tempRepl;
         outputHtml = outputHtml.substring(fencedCodeMatch.index + fencedCodeMatch[0].length);
     }
@@ -44,12 +42,12 @@ function mdConverter(inputMd) {
     outputHtml = outputHtml.replace(italicPattern, '<i>$1</i>');
     outputHtml = outputHtml.replace(monospacedPattern, '<tt>$1</tt>');
 
-    let paragraphs = outputHtml.split('\n{2,}');
+    let paragraphs = outputHtml.split(/\n\s*\n/);
 
     let outputBuilder = '';
     for (let paragraph of paragraphs) {
-        if (paragraph !== '') {
-            outputBuilder += '<p>' + paragraph + '</p>\n';
+        if (paragraph.trim() !== '') {
+            outputBuilder += '<p>' + paragraph.trim() + '</p>\n';
         }
     }
     outputHtml = outputBuilder;
