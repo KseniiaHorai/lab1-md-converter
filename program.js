@@ -3,7 +3,7 @@ const { mdConverter } = require('./converter.js');
 function main() {
 
     const args = process.argv.slice(2)
-    let formatValue = 'ansi';
+    let formatValue = 'ansi'; // Default format is HTML
     const formatIndex = args.findIndex(arg => arg.startsWith('--format='));
 
     if (formatIndex !== -1) {
@@ -34,16 +34,7 @@ function main() {
     }
 
     let markdownContent = require('fs').readFileSync(inputFilePath, 'utf8');
-    let htmlContent = mdConverter(markdownContent);
-
-    if (formatValue === 'ansi') {
-        // Convert HTML tags to ANSI Escape Codes
-        htmlContent = htmlContent.replace(/<b>(.*?)<\/b>/g, '\x1b[1m$1\x1b[22m'); 
-        htmlContent = htmlContent.replace(/<i>(.*?)<\/i>/g, '\x1b[3m$1\x1b[23m'); 
-        htmlContent = htmlContent.replace(/<tt>(.*?)<\/tt>/g, '\x1b[7m$1\x1b[27m'); 
-        htmlContent = htmlContent.replace(/<pre>((?:.|[\n\r])*?)<\/pre>/g, '\x1b[7m$1\x1b[0m');
-        htmlContent = htmlContent.replace(/<p>((?:.|[\n\r])*?)<\/p>/g, '$1\n');
-    }
+    let htmlContent = mdConverter(markdownContent, formatValue);
 
     if (outputFilePath !== null) {
         require('fs').writeFileSync(outputFilePath, htmlContent);
