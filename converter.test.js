@@ -74,3 +74,33 @@ describe('Complex valid Markdown to HTML converting', () => {
   });
 
 });
+
+describe('Invalid Markdown to HTML converting', () => {
+
+  test('Test nesting validation bold, italic, monospaced', () => {
+    expect(() => mdConverter('I am bold, monospced, and italic **`_but invalid_`**', 'html').toThrow('Invalid input: nested markdown'));
+  });
+
+  test('Test nesting validation bold, monospaced', () => {
+    expect(() => mdConverter('I am bold and monospced **`but invalid`**', 'html').toThrow('Invalid input: nested markdown'));
+  });
+
+  test('Test nesting validation bold, italic', () => {
+    expect(() => mdConverter('I am bold and italic **_but invalid_**', 'html').toThrow('Invalid input: nested markdown'));
+  });
+
+  test('Test nesting validation italic, monospaced', () => {
+    expect(() => mdConverter('I am italic and monospced _`but invalid`_', 'html').toThrow('Invalid input: nested markdown'));
+  });
+  
+  test('Incomplete bold', () => {
+    expect(() => mdConverter('It is **bold but not closed.', 'html').toThrow('Invalid input: incomplete markdown'));
+  });
+  test('Incomplete italic', () => {
+    expect(() => mdConverter('It is **italic but not closed.', 'html').toThrow('Invalid input: incomplete markdown'));
+  });
+  test('Incomplete italic', () => {
+    expect(() => mdConverter('It is **monospaced but not closed.', 'html').toThrow('Invalid input: incomplete markdown'));
+  });
+
+});
