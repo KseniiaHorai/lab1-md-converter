@@ -15,7 +15,7 @@ function main() {
     }
 
     if (args.length < 1) {
-        console.error("Usage: node program.js <markdown_file_path> [--out <output_file_path>]");
+        console.error("Usage: node program.js <markdown_file_path> [--out <output_file_path>] [--format=<ansi_or_html>]");
         process.exit(1);
     }
 
