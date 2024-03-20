@@ -131,3 +131,44 @@ describe('Simple valid Markdown to ANSI converting', () => {
 
 });
 
+describe('Complex valid Markdown to ANSI converting', () => {
+  test('Test snake_case', () => {
+    expect(mdConverter('It is ok to be snake_case', 'ansi')).toBe('\nIt is ok to be snake_case');
+  });
+
+  test('Test single bold tag', () => {
+    expect(mdConverter('It is ok ** to be single', 'ansi')).toBe('\nIt is ok ** to be single');
+  });
+
+  test('Test single italic tag', () => {
+    expect(mdConverter('It is ok _ to be single', 'ansi')).toBe('\nIt is ok _ to be single');
+  });
+
+  test('Test single monospaced tag', () => {
+    expect(mdConverter('It is ok  ` to be single', 'ansi')).toBe('\nIt is ok  ` to be single');
+  });
+
+  test('Test single preformatted tag', () => {
+    expect(mdConverter('It is ok ``` to be single', 'ansi')).toBe('\nIt is ok \x1b[7m`\x1b[27m to be single');
+  });
+
+  test('triple monospaced tag is handled correctly', () => {
+    const input = [
+      'Test **bold** **bold1** **bold2**',
+      'Test _italic_ _italic1_ _italic2_',
+      'Test `monospaced` `monospaced1` `monospaced2`\n',
+      'It is ok to be snake_case',
+      'It is ok ** to be single\n'
+    ].join('\n');
+    const expectedOutput = [
+      '\nTest \x1b[1mbold\x1b[22m \x1b[1mbold1\x1b[22m \x1b[1mbold2\x1b[22m',
+      'Test \x1b[3mitalic\x1b[23m \x1b[3mitalic1\x1b[23m \x1b[3mitalic2\x1b[23m',
+      'Test \x1b[7mmonospaced\x1b[27m \x1b[7mmonospaced1\x1b[27m \x1b[7mmonospaced2\x1b[27m',
+      'It is ok to be snake_case',
+      'It is ok ** to be single'
+    ].join('\n');
+    expect(mdConverter(input, 'ansi')).toBe(expectedOutput);
+  });
+
+});
+
