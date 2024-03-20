@@ -24,10 +24,10 @@ const tagPatterns = {
 };
 
 const patterns = {
-    preformattedPattern: /(^\\n?|^)```(.*?)```(\\n?|$)/,
-    boldPattern: /\*\*(\S(?:.*?\S)?)\*\*/,
-    italicPattern: /_(\S(?:.*?\S)?)_/,
-    monospacedPattern: /`(\S(?:.*?\S)?)`/
+    preformattedPattern: /(^\\n?|^)```(.*?)```(\\n?|$)/ms,
+    boldPattern: /\*\*(\S(?:.*?\S)?)\*\*/g,
+    italicPattern: /_(\S(?:.*?\S)?)_/g,
+    monospacedPattern: /`(\S(?:.*?\S)?)`/g
 };
 
 module.exports = { tagPatterns, patterns};
