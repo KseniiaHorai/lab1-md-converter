@@ -97,10 +97,37 @@ describe('Invalid Markdown to HTML converting', () => {
     expect(() => mdConverter('It is **bold but not closed.', 'html').toThrow('Invalid input: incomplete markdown'));
   });
   test('Incomplete italic', () => {
-    expect(() => mdConverter('It is **italic but not closed.', 'html').toThrow('Invalid input: incomplete markdown'));
+    expect(() => mdConverter('It is _italic but not closed.', 'html').toThrow('Invalid input: incomplete markdown'));
   });
-  test('Incomplete italic', () => {
-    expect(() => mdConverter('It is **monospaced but not closed.', 'html').toThrow('Invalid input: incomplete markdown'));
+  test('Incomplete monospaced', () => {
+    expect(() => mdConverter('It is `monospaced but not closed.', 'html').toThrow('Invalid input: incomplete markdown'));
   });
 
 });
+
+describe('Simple valid Markdown to ANSI converting', () => {
+
+  test('Test bold', () => {
+    expect(mdConverter('**It is bold**', 'ansi')).toBe('\n\x1b[1mIt is bold\x1b[22m');
+});
+
+  test('Test italic', () => {
+    expect(mdConverter('_It is italic!_', 'ansi')).toBe('\n\x1b[3mIt is italic!\x1b[23m');
+  });
+
+  test('Test monospaced', () => {
+    expect(mdConverter('`It is monospaced!`', 'ansi')).toBe('\n\x1b[7mIt is monospaced!\x1b[27m');
+  });
+
+  test('Test preformatted', () => {
+    expect(mdConverter('```\r\n You **cannot** _alter me_\r\n\r\nbecause I am `preformatted`\r\n```', 'ansi'))
+      .toBe('\n\x1b[7m\r\n You **cannot** _alter me_\r\n\r\nbecause I am `preformatted`\r\n\x1b[m');
+  });
+
+  test('Test paragraph', () => {
+    expect(mdConverter('This is paragraph 1.\nIt continues.\n', 'ansi'))
+    .toBe('\nThis is paragraph 1.\nIt continues.');
+  });
+
+});
+
