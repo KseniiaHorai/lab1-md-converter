@@ -19,7 +19,7 @@ function validateMarkdownNesting(firstPattern, secondPattern, array) {
         let isNested1 = firstResult !== null;
         let isNested2 = secondResult !== null;
         if (isNested1 || isNested2) {
-            throw 'Invalid input: nested markdown';
+            throw new Error('Invalid input: nested markdown');
         }
     }
 }
@@ -34,7 +34,7 @@ function validateMarkdownCompletion(validationHtml) {
         isIncomplete(wordsArray, '_') ||
         isIncomplete(wordsArray, '`')
         ) {
-        throw 'Invalid input: incomplete markdown';
+        throw new Error('Invalid input: incomplete markdown');
     }
 }
 
