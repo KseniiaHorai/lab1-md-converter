@@ -3,7 +3,7 @@ const { mdConverter } = require('./converter.js');
 function main() {
 
     const args = process.argv.slice(2)
-    let formatValue = 'ansi'; // Default format is HTML
+    let formatValue = 'ansi'; 
     const formatIndex = args.findIndex(arg => arg.startsWith('--format='));
 
     if (formatIndex !== -1) {
@@ -22,15 +22,16 @@ function main() {
     let inputFilePath = args[0];
     let outputFilePath = null;
 
-    if (args.length > 1 && args[1] === "--out") {
-        if (args.length < 3 || args[2].startsWith('--')) {
+    const outIndex = args.findIndex(arg => arg.startsWith('--out'));
+    if (args.length > 1 && outIndex !== -1) {
+        if (args.length < 3 || args[outIndex+1].startsWith('--')) {
             console.error('No path found');
             process.exit(1);
         }
         if (formatIndex === -1){
             formatValue = "html";
         }
-        outputFilePath = args[2];
+        outputFilePath = args[outIndex+1];
     }
 
     let markdownContent = require('fs').readFileSync(inputFilePath, 'utf8');
